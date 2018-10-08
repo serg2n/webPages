@@ -31,7 +31,9 @@ namespace webPages
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+            services.AddTransient<TimeService>();
+            services.AddTransient<DateService>();
+            services.AddTransient<Webreq>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -53,6 +55,12 @@ namespace webPages
             app.UseCookiePolicy();
 
             app.UseMvc();
+            app.UseTimer();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Hello world!");
+            });
         }
     }
 }
